@@ -7,7 +7,7 @@ var MAP_WIDTH = 40;
 var MAP_HEIGHT = 30;
 
 var map = [];
-
+ 
 var background = makeImage("img/background.png");
 var islands = makeImage("img/island.png");
 var bridges = makeImage("img/bridge.png");
@@ -42,10 +42,23 @@ function drawMap(width, height) {
 
     if (cell == 'wall')
 	  displayBlock('#af6', px, py, X_SIZE, Y_SIZE);
-    else
+	else if (cell == 'land')
+ 	  displayBlock('#0f0', px, py, X_SIZE, Y_SIZE);
+	else if (cell == 'pit')
+ 	  displayBlock('#00f', px, py, X_SIZE, Y_SIZE);
+	else
 	{
-	  // displayBlock('#eee', px, py, X_SIZE, Y_SIZE);
+	  //displayBlock('#eee', px, py, X_SIZE, Y_SIZE);
       displayTile(px, py, X_SIZE, Y_SIZE);
+	  var pixarr = context.getImageData(px, py, X_SIZE, Y_SIZE).data;
+	  if (x == 14 && y == 14){
+		  for (i = 0; i < TILE_SIZE; i++)
+		  for (j = 0; j < TILE_SIZE; j++){
+			  if (pixarr[j][i] == 0)
+				setMap({x:x, y:y}, 'land');
+		  }
+	  }
+	  
 	}
   }
 }

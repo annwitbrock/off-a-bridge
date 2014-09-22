@@ -32,18 +32,18 @@ function main() {
   for (var y=0; y<MAP_HEIGHT; y++)
   for (var x=0; x<MAP_WIDTH; x++) {
     if (x == 0 || y == 0 || x+1==MAP_WIDTH || y+1==MAP_HEIGHT) {
-      setMap({x:x, y:y}, 'wall');
-      var wall_shape = new b2BoxDef();
-      wall_shape.restitution = 0.1;
-      wall_shape.extents.Set(0.5, 0.5);
-
-      var wall_body = new b2BodyDef();
-      wall_body.AddShape(wall_shape);
-      wall_body.position.Set(x, y);
-      world.CreateBody(wall_body);
-    }
+	    setMap({x:x, y:y}, 'wall');
+		world.CreateBody(setWall(x, y));
+	}
+	// else if (hasLand(x,y) == true){
+	    // setMap({x:x, y:y}, 'land');
+	// }
+	// else {
+		// setMap({x:x, y:y}, 'pit');
+	// }
   }
 
+  
   canvas = document.createElement('canvas');
   canvas.width = 640;
   canvas.height = 480;
@@ -76,6 +76,27 @@ function main() {
   }
 }
 
+function setWall(x,y){
+      var wall_shape = new b2BoxDef();
+      wall_shape.restitution = 0.1;
+      wall_shape.extents.Set(0.5, 0.5);
+
+      var wall_body = new b2BodyDef();
+      wall_body.AddShape(wall_shape);
+      wall_body.position.Set(x, y);
+      return wall_body;
+}
+
+function hasLand(x,y){
+	var land = makeImage("img/island.png");
+
+	for (var j=0; j<y + TILE_SIZE; j++)
+	for (var i=0; i<x + TILE_SIZE; i++) {
+		console.log(land.getImageData(i,j).toString()); // TODO: look through relevant tile on island and bridges
+			//return true;
+	}
+	return false;
+}
 
 function onPlayerReceived(player) {
   // Update the position of the received player
